@@ -5,13 +5,19 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
+// import routes
+const authRouter = require('./routes/auth');
+
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+  })
+);
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-  return res.json({ msg: 'Hello world' });
-});
+// use routes
+app.use('/api/v1/auth', authRouter);
 
 // connect to mongodb
 mongoose
