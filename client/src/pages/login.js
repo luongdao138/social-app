@@ -41,7 +41,7 @@ const Login = () => {
     dispatch(login(values));
   };
 
-  if (auth.token) return <Navigate to='/home' />;
+  if (auth.token) return <Navigate to='/' />;
 
   return (
     <div className='auth_page'>
@@ -67,7 +67,7 @@ const Login = () => {
               </small>
             </MyInput>
             <button type='submit' className='btn btn-dark w-100 mt-3' disabled={!formik.isValid}>
-              Submit
+              Login
             </button>
 
             <p className='my-2'>
