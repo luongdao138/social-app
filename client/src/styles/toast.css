@@ -1,0 +1,16 @@
+.toast {
+  animation: slideIn 2s forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translate(100%);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+}

@@ -1,6 +1,6 @@
 import { Formik, Form, useField } from 'formik';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useToggle } from '../hooks';
 import { login } from '../redux/actions';
@@ -28,16 +28,20 @@ const MyInput = ({ label, children, ...props }) => {
         <input {...props} {...field} />
         {children}
       </div>
+      {meta.touched && meta.error ? <span className='error text-danger '>{meta.error}</span> : null}
     </div>
   );
 };
 
 const Login = () => {
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
   const [showPw, togglePw] = useToggle();
   const handleLogin = (values, helpers) => {
     dispatch(login(values));
   };
+
+  if (auth.token) return <Navigate to='/home' />;
 
   return (
     <div className='auth_page'>
@@ -62,11 +66,7 @@ const Login = () => {
                 {showPw ? 'Hide' : 'Show'}
               </small>
             </MyInput>
-            <button
-              type='submit'
-              className='btn btn-dark w-100 mt-3'
-              disabled={!formik.isValid || formik.isSubmitting}
-            >
+            <button type='submit' className='btn btn-dark w-100 mt-3' disabled={!formik.isValid}>
               Submit
             </button>
 

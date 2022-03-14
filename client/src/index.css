@@ -27,3 +27,5 @@
 
 /* ******* Auth ******* */
 @import url('./styles/auth.css');
+@import url('./styles/loading.css');
+@import url('./styles/toast.css');

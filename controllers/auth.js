@@ -35,7 +35,11 @@ module.exports = {
 
       newUser = await newUser.save();
       delete newUser._doc.password;
-      return res.json({ msg: 'Register success', accessToken, user: { ...newUser._doc } });
+      return res.json({
+        msg: 'Register success',
+        access_token: accessToken,
+        user: { ...newUser._doc },
+      });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -60,7 +64,7 @@ module.exports = {
       });
 
       delete user._doc.password;
-      return res.json({ msg: 'Login success', accessToken, user: { ...user._doc } });
+      return res.json({ msg: 'Login success', access_token: accessToken, user: { ...user._doc } });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -75,11 +79,15 @@ module.exports = {
   },
   async generateAccessToken(req, res) {
     try {
+      console.log(res.cookies);
+
       const rf_token = req.cookies.refreshtoken;
-      if (!rf_token) res.status(400).json({ msg: 'Please login now!' });
+      if (!rf_token) return res.status(400).json({ msg: 'Please login now!' });
 
       jwt.verify(rf_token, process.env.REFFRESH_TOKEN_SECRET, async (error, result) => {
-        if (error) return res.status(400).json({ msg: 'Please login now!' });
+        if (error) {
+          return res.status(400).json({ msg: 'Please login now!' });
+        }
 
         const user = await User.findById(result.id, '-password').populate(
           'followers following',

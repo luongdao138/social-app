@@ -1,2 +1,3 @@
 export * from './authAction';
-export * from './notifyAction';
+export * from './alertAction';
+export * from './globalTypes';

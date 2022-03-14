@@ -7,14 +7,21 @@ const mongoose = require('mongoose');
 
 // import routes
 const authRouter = require('./routes/auth');
+const res = require('express/lib/response');
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
     origin: ['http://localhost:3000'],
+    credentials: true,
   })
 );
-app.use(cookieParser());
+
+app.get('/', (req, res) => {
+  res.cookie('foo', 'bar');
+  res.json({ msg: 'Cookie is set ' });
+});
 
 // use routes
 app.use('/api/v1/auth', authRouter);
